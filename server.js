@@ -1,29 +1,23 @@
 var express = require('express');
 var app = express();
-var fs= require('fs');
-var bodyParser = require('body-parser');
-var stringifyFile='';
-
-app.use(bodyParser.json());
+app.use(express.static('assets'));
 
 
-app.get('/:getNote', function(req, res) {
-    fs.readFile('./test.json', 'utf8', function(err, data) {
-        if (err) throw err;
-        fileContent = data;
-        res.send(data);
-    });
+app.get('/', function (req, res) {
+    res.sendFile('/index.html')
 });
 
-app.post('/updateNote/:note', function(req, res) {
-    fs.writeFile('./test.json', stringifyFile, function(req, res, next) {
-        if (err) throw err;
-        console.log('file updated');
-    });
+app.get('/userform', function (req, res) {
+    const response = {
+        first_name: req.query.first_name,
+        last_name: req.query.last_name
+    };
+    res.end(JSON.stringify(response));
 });
 
-app.use(function (req, res, next) {
-    res.status(404).send('Wybacz, nie mogliśmy odnaleźć tego, czego żądasz!');
-});
+var server = app.listen(3000, function() {
+    var host = server.address().address;
+    var port = server.address().port;
 
-app.listen(3000);
+    console.log('Przykładowa aplikacja nasłuchuje na http://' + host + ':' + port);
+});
