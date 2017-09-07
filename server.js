@@ -20,7 +20,7 @@ app.post('/updateNote/:note', function(req, res) {
         if (err) throw err;
         console.log('file updated');
     });
-});
+});  // nie działa
 
 app.use(function (req, res, next) {
     res.status(404).send('Wybacz, nie mogliśmy odnaleźć tego, czego żądasz!');
