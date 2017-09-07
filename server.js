@@ -15,6 +15,11 @@ app.get('/userform', function (req, res) {
     res.end(JSON.stringify(response));
 });
 
+app.use(function(req, res, next){
+    console.log('Hej, jestem pośrednikiem między żądaniem a odpowiedzią!');
+    next();
+});
+
 var server = app.listen(3000, function() {
     var host = server.address().address;
     var port = server.address().port;
