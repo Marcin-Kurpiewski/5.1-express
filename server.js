@@ -20,6 +20,11 @@ app.use(function(req, res, next){
     next();
 });
 
+app.get('/store', function(req, res, next){
+    console.log(" jestś w sklepie :-)  ");
+    res.send("jesteś w sklepie");
+});
+
 var server = app.listen(3000, function() {
     var host = server.address().address;
     var port = server.address().port;
