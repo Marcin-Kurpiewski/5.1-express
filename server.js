@@ -6,6 +6,7 @@ var app = express();
 var googleProfile = {};
 
 
+
 passport.serializeUser(function(user, done) {
     done(null, user);
 });
@@ -14,9 +15,9 @@ passport.deserializeUser(function(obj, done) {
 });
 
 passport.use(new GoogleStrategy({
-        clientID: '302066876983-65kc6i5mosbcp8ffp65608i7ro9ena35.apps.googleusercontent.com',
-        clientSecret:'cp-JMoYMGmfrXbJB6yBIbyoR',
-        callbackURL: 'http;/localhost:3000/auth/google/callback'
+        clientID: config.GOOGLE_CLIENT_ID,
+        clientSecret:config.GOOGLE_CLIENT_SECRET,
+        callbackURL: config.CALLBACK_URL
     },
     function(accessToken, refreshToken, profile, cb) {
         googleProfile = {
