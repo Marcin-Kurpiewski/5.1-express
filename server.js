@@ -1,28 +1,56 @@
 var express = require('express');
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var config = require('./config');
 var app = express();
+var googleProfile = {};
+
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+passport.deserializeUser(function(obj, done) {
+    done(null, obj);
+});
+
+passport.use(new GoogleStrategy({
+        clientID: '302066876983-65kc6i5mosbcp8ffp65608i7ro9ena35.apps.googleusercontent.com',
+        clientSecret:'cp-JMoYMGmfrXbJB6yBIbyoR',
+        callbackURL: 'http;/localhost:3000/auth/google/callback'
+    },
+    function(accessToken, refreshToken, profile, cb) {
+        googleProfile = {
+            id: profile.id,
+            displayName: profile.displayName
+        };
+        cb(null, profile);
+    }
+));
+
 app.set('view engine', 'pug');
 app.set('views','./views');
 
-app.get('/signin', function (req, res) {
-    res.render('signin');
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+//app route
+app.get('/', function (req, res) {
+    res.render('index', { user: req.user});
 });
-
-app.get('/profile', function (req, res) {
-    res.render('profile',
-    {       first_name: "jan",
-            last_name: "kowalski"
-        });
+app.get('/logged', function (req, res) {
+    res.render('logged', {user: googleProfile});
 });
+// passport route
+app.get('/auth/google',
+    passport.authenticate('google', {
+        scope : ['profile', 'email']
+    }));
+app.get('/auth/google/callback',
+    passport.authenticate('google', {
+        successRedirect : '/logged',
+        failureRedirect: '/'
+    }));
 
-app.use(function(req, res, next){
-    console.log('Hej, jestem pośrednikiem między żądaniem a odpowiedzią!');
-    next();
-});
+app.listen(3000);
 
-
-var server = app.listen(3000, function() {
-    var host = server.address().address;
-    var port = server.address().port;
-
-    console.log('Przykładowa aplikacja nasłuchuje na http://' + host + ':' + port);
-});
