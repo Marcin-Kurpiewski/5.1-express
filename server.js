@@ -1,18 +1,17 @@
 var express = require('express');
 var app = express();
-app.use(express.static('assets'));
+app.set('view engine', 'pug');
+app.set('views','./views');
 
-
-app.get('/', function (req, res) {
-    res.sendFile('/index.html')
+app.get('/signin', function (req, res) {
+    res.render('signin');
 });
 
-app.get('/userform', function (req, res) {
-    const response = {
-        first_name: req.query.first_name,
-        last_name: req.query.last_name
-    };
-    res.end(JSON.stringify(response));
+app.get('/profile', function (req, res) {
+    res.render('profile',
+    {       first_name: "jan",
+            last_name: "kowalski"
+        });
 });
 
 app.use(function(req, res, next){
@@ -20,10 +19,6 @@ app.use(function(req, res, next){
     next();
 });
 
-app.get('/store', function(req, res, next){
-    console.log(" jestś w sklepie :-)  ");
-    res.send("jesteś w sklepie");
-});
 
 var server = app.listen(3000, function() {
     var host = server.address().address;
