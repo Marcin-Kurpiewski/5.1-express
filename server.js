@@ -3,8 +3,10 @@ var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var config = require('./config');
 var app = express();
+var bodyParser =require('body-parser');
 var googleProfile = {};
 
+app.use(bodyParser.json());
 
 
 passport.serializeUser(function(user, done) {
@@ -16,7 +18,7 @@ passport.deserializeUser(function(obj, done) {
 
 passport.use(new GoogleStrategy({
         clientID: config.GOOGLE_CLIENT_ID,
-        clientSecret:config.GOOGLE_CLIENT_SECRET,
+        clientSecret: config.GOOGLE_CLIENT_SECRET,
         callbackURL: config.CALLBACK_URL
     },
     function(accessToken, refreshToken, profile, cb) {
@@ -37,10 +39,10 @@ app.use(passport.session());
 
 //app route
 app.get('/', function (req, res) {
-    res.render('index', { user: req.user});
+    res.render('index.pug', { user: req.user});
 });
 app.get('/logged', function (req, res) {
-    res.render('logged', {user: googleProfile});
+    res.render('logged.pug ', {user: googleProfile});
 });
 // passport route
 app.get('/auth/google',

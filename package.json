@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/Marcin-Kurpiewski/5.1-express#readme",
   "dependencies": {
-    "body-parser": "^1.17.2",
+    "body-parser": "^1.18.2",
     "express": "^4.15.4",
     "passport": "^0.4.0",
     "passport-auth0": "^0.6.0",
