@@ -21,7 +21,9 @@
     "express": "^4.15.4",
     "passport": "^0.4.0",
     "passport-auth0": "^0.6.0",
-    "passport-google-oauth": "^1.0.0",
+    "passport-google-oauth": "^1.0.0"
+  },
+  "devDependencies": {
     "pug": "^2.0.0-rc.4"
   }
 }

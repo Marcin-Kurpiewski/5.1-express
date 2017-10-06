@@ -4,4 +4,11 @@ html
         title="profile"
         body
             h2 your profile
-            p name: #{user}
+            p ID: #{googleProfile.id}
+            p Full Name: #{googleProfile.displayName}
+            p Surname: #{googleProfile.familyName}
+            p Name: #{googleProfile.givenName}
+            p Email: #{googleProfile.emails[0]}
+
+
+
